@@ -21,16 +21,24 @@ Stack.prototype.length = function(){
 	return this.top;
 }
 
-const findMid = function(stack,top,current){
-	if(stack.empty() || top === current){
+const findMid = function(stack1,top1,current1){
+	let mid;
+	function midEl(stack,top,current){
+		if(stack.empty() || top === current){
 		return;
-	}
-	let data = stack.pop();
-	findMid(stack,top,current + 1);
+		}
+		let data = stack.pop();
+		midEl(stack,top,current + 1);
 
-	if(current !== Math.floor(top/2)){
-		stack.push(data);
+		if(current !== Math.floor(top/2)){
+			stack.push(data);
+		}else{
+			mid = data;
+		}
 	}
+	midEl(stack1,top1,current1);
+	return mid;
+	
 }
 
 const stack = new Stack();

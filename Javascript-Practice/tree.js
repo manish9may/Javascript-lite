@@ -144,6 +144,41 @@ Tree.prototype.topView = function(){
 	topView(currentNode,0);
 	
 }
+Tree.prototype.removeNode = function(data){
+	const currentNode = this.root;
+	function removeNode(node,data){
+		if(node === null){
+			return 1;
+		}
+		if(data > node.data){
+			node.right = removeNode(node.right,data);
+		}
+		else if(data < node.data){
+			node.left = removeNode(node.left,data);
+		}else{
+			if(node.right === null && node.left === null){
+				node = null;
+				return node;
+			}else if(node.right === null){
+				node = node.left;
+				return node;
+			}else if(node.left === null){
+				node = node.right;
+				return node;
+			}else{
+				let currNode = node.right;
+				while(currNode.left){
+					currNode = currNode.left;
+				}
+				node.data = currNode.data;
+				node.right = removeNode(node.right,data);
+				return node;
+			}
+			return;
+		}
+	}
+	return removeNode(currentNode,data);
+}
 
 
 const tree = new Tree();
@@ -152,6 +187,7 @@ tree.addNode(5);
 tree.addNode(8);
 tree.addNode(4);
 tree.addNode(6);
+tree.addNode(2);
 console.log(tree,tree.findNode(51),tree.inOrderTraverse(),tree.depth());
 // tree.traverseBFS();
 tree.sideView();
@@ -173,3 +209,7 @@ const BinarySearch = function(items,target){
 }
 
 console.log("BinarySearch		",BinarySearch([1,2,3,4,5,6,7],4))
+
+console.log("########################")
+tree.removeNode(5);
+console.log(tree)
